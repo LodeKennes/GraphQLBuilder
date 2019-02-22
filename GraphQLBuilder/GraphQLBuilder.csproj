@@ -12,6 +12,9 @@
     <Product>GraphQLBuilder</Product>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>sign-key.snk</AssemblyOriginatorKeyFile>
+    <PackageProjectUrl>https://github.com/LodeKennes/GraphQLBuilder</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LodeKennes/GraphQLBuilder</RepositoryUrl>
+    <NeutralLanguage></NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
