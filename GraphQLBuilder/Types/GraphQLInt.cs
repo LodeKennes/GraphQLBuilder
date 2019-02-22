@@ -2,7 +2,7 @@
 
 namespace GraphQLBuilder.Types
 {
-    public class GraphQLInt : IGraphQLType, IGraphQLScalarType, IGraphQLScalarType<int>
+    public class GraphQLInt : IGraphQLScalarType<int>
     {
         public GraphQLInt(int value)
         {

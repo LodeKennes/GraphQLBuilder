@@ -23,16 +23,14 @@ namespace GraphQLBuilder.Implementations
             _params = new List<GraphQLQueryParam>();
         }
 
-        public IGraphQLQuery<T> WithParam<TType>(string key, TType value) where TType : IGraphQLType
+        public IGraphQLQuery<T> WithParam<TType>(string key, TType value) where TType : IGraphQLScalarType
         {
-            if (!value.GetType().ImplementsGenericInterface(typeof(IGraphQLScalarType<>))) throw new ArgumentException($"Given type {value.GetType().Name} doesn't implement IGraphQLScalarType"); 
-
             _params.Add(new GraphQLQueryParam(key, value));
 
             return this;
         }
 
-        public IGraphQLRequest<T> Build()
+        public IGraphQLRequest<T> GetRequest()
         {
             var builder = new StringBuilder("query ");
 

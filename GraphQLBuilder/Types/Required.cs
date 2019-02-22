@@ -3,11 +3,11 @@ using System;
 
 namespace GraphQLBuilder.Types
 {
-    public class Required<T> : IGraphQLType where T : IGraphQLType, new()
+    public class Required<T> : IGraphQLType where T : IGraphQLScalarType, new()
     {
         public string Type { 
             get {
-                var type = (IGraphQLType) Activator.CreateInstance<T>();
+                var type = (IGraphQLScalarType) Activator.CreateInstance<T>();
 
                 return $"{type.Type}";
             }

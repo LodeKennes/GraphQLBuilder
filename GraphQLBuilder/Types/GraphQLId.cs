@@ -2,9 +2,9 @@
 
 namespace GraphQLBuilder.Types
 {
-    public class GraphQLString : IGraphQLScalarType<string>
+    public class GraphQLId : IGraphQLScalarType<string>
     {
-        public GraphQLString(string value)
+        public GraphQLId(string value)
         {
             Value = value;
         }
@@ -15,9 +15,9 @@ namespace GraphQLBuilder.Types
 
         dynamic IGraphQLScalarType.Value => Value;
 
-        public static implicit operator GraphQLString(string value)
+        public static implicit operator GraphQLId(string value)
         {
-            return new GraphQLString(value);
+            return new GraphQLId(value);
         }
     }
 }

@@ -10,8 +10,8 @@ namespace GraphQLBuilder.Tests
         {
             var query1 = GraphQLBuilder.GraphQL<Country>("country")
                 .WithParam<GraphQLString>("code", "AD")
-                .Build()
-                .WithUri("https://countries.trevorblades.com/").Response().GetAwaiter().GetResult();
+                .GetRequest()
+                .WithUri("https://countries.trevorblades.com/").GetResponseAsync().GetAwaiter().GetResult();
 
             Console.WriteLine("Hello World!");
         }

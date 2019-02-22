@@ -9,6 +9,6 @@ namespace GraphQLBuilder.Abstractions
         IGraphQLRequest<T> WithUri(Uri uri);
         IGraphQLRequest<T> WithUri(string uri);
 
-        Task<T> Response();
+        Task<T> GetResponseAsync();
     }
 }

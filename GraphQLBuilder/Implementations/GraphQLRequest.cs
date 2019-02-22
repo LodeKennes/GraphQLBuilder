@@ -23,7 +23,7 @@ namespace GraphQLBuilder.Implementations
             _headers = new Dictionary<string, string>();
         }
 
-        public async Task<T> Response()
+        public async Task<T> GetResponseAsync()
         {
             using (var client = new GraphQLClient(_uri))
             {
