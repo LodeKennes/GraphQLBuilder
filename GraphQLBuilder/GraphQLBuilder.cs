@@ -1,9 +1,8 @@
 ﻿using GraphQLBuilder.Abstractions;
-using GraphQLBuilder.Attributes;
 using GraphQLBuilder.Extensions;
+using GraphQLBuilder.Helpers;
 using GraphQLBuilder.Implementations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,20 +12,9 @@ namespace GraphQLBuilder
     {
         public static IGraphQLQuery<T> GraphQL<T>(string entity) where T : class
         {
-            var type = typeof(T);
+            var possibleFields = PropertyCollector.BuildPropertyTreeFor<T>();
 
-            if (type.ImplementsInterface(typeof(IEnumerable))) type = type.GetGenericArguments()[0];
-
-            var possibleFields = new List<string>();
-
-            if (!type.HasAttribute<GraphQLClass>()) {
-                possibleFields.AddRange(type.GetFieldsWithAttribute<GraphQLProperty>().SelectNames());
-            } else
-            {
-                possibleFields.AddRange(type.GetSettableProperties().SelectNames());
-            }
-
-            if (possibleFields.Count == 0) throw new ArgumentException($"Type {type.Name} doesn't contain any appropriate fields, please use GraphQLClass and GraphQLProperty");
+            if (possibleFields.Count() == 0) throw new ArgumentException($"Type {typeof(T).Name} doesn't contain any appropriate fields, please use GraphQLClass and GraphQLProperty");
 
             return new GraphQLQuery<T>(entity, possibleFields);
         }
@@ -35,15 +23,11 @@ namespace GraphQLBuilder
         {
             if (!fields.Any()) throw new ArgumentException("Fields should contain atleast one value");
 
-            var type = typeof(T);
+            var possibleFields = PropertyCollector.BuildPropertyTreeFor<T>();
 
-            if (type.ImplementsGenericInterface(typeof(IEnumerable<>))) type = type.GetGenericTypeDefinition();
+            if (possibleFields.Count() == 0) throw new ArgumentException($"Type {typeof(T).Name} doesn't contain any appropriate fields, please use GraphQLClass and GraphQLProperty");
 
-            var nonValidFields = GetNonValidFields(type, fields);
-
-            if (nonValidFields.Any()) throw new ArgumentException($"Couldn't find fields {string.Join(", ", nonValidFields)} on type ${type.Name}");
-
-            return new GraphQLQuery<T>(entity, fields);
+            return new GraphQLQuery<T>(entity, possibleFields);
         }
 
         private static IEnumerable<string> GetNonValidFields(Type type, IEnumerable<string> fields) {

@@ -1,10 +1,8 @@
 ﻿using GraphQLBuilder.Abstractions;
-using GraphQLBuilder.Extensions;
+using GraphQLBuilder.Helpers;
 using GraphQLBuilder.Models;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using System.Text;
 
 namespace GraphQLBuilder.Implementations
@@ -12,13 +10,13 @@ namespace GraphQLBuilder.Implementations
     public class GraphQLQuery<T> : IGraphQLQuery<T>
     {
         private readonly string _entity;
-        private readonly IEnumerable<string> _fields;
+        private readonly IEnumerable<GraphQLPropertyModel> _properties;
         private readonly IList<GraphQLQueryParam> _params;
 
-        public GraphQLQuery(string entity, IEnumerable<string> fields)
+        public GraphQLQuery(string entity, IEnumerable<GraphQLPropertyModel> fields)
         {
             _entity = entity;
-            _fields = fields;
+            _properties = fields;
 
             _params = new List<GraphQLQueryParam>();
         }
@@ -32,39 +30,10 @@ namespace GraphQLBuilder.Implementations
 
         public IGraphQLRequest<T> GetRequest()
         {
-            var builder = new StringBuilder("query ");
+            var builder = new StringBuilder(QueryBuilder.BuildHeader(_entity, _params));
 
-            if (_params.Any())
-            {
-                builder.Append("(");
-
-                var queryParameters = _params.Select(param => $"${param.Key}: {param.Type.Type}");
-
-                builder.Append(string.Join(", ", queryParameters));
-                builder.Append(")");
-            }
-
-            builder.Append("{ \n");
-
-            builder.Append($"{_entity}");
-
-            if (_params.Any())
-            {
-                builder.Append("(");
-
-                var parameters = _params.Select(p => $"{p.Key}: ${p.Key}");
-
-                builder.Append(string.Join(", ", parameters));
-
-                builder.Append(")");
-            }
-
-            builder.Append("\n {");
-
-            builder.Append(string.Join(",\n", _fields.ToCamelCase()));
-
-            builder.Append("\n}");
-            builder.Append("\n}");
+            builder.Append(QueryBuilder.BuildBody(_properties));
+            builder.Append(QueryBuilder.BuildFooter());
 
             var parametersObject = new ExpandoObject() as IDictionary<string, object>; ;
 

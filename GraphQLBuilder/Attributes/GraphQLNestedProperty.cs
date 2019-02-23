@@ -3,7 +3,7 @@
 namespace GraphQLBuilder.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    public class GraphQLProperty : Attribute
+    public class GraphQLNestedProperty : Attribute
     {
     }
 }

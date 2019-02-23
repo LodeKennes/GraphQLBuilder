@@ -17,7 +17,7 @@ namespace GraphQLBuilder.Extensions
             return propertyInfos.Select(fi => fi.Name);
         }
 
-        public static IEnumerable<PropertyInfo> GetFieldsWithAttribute<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute
+        public static IEnumerable<PropertyInfo> GetPropertiesWithAttribute<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute
         {
             var attributeType = typeof(TAttribute);
 

@@ -12,5 +12,8 @@ namespace GraphQLBuilder.Tests.GraphQLModels
         public string Currency { get; set; }
         public string Emoji { get; set; }
         public string EmojiU { get; set; }
+
+        [GraphQLNestedProperty]
+        public Continent Continent { get; set; }
     }
 }
