@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace GraphQLBuilder.Abstractions
 {
-    public interface IGraphQLRequest<T>
+    public interface IGraphQLRequest
     {
-        IGraphQLRequest<T> WithHeader(string header, string value);
-        IGraphQLRequest<T> WithUri(Uri uri);
-        IGraphQLRequest<T> WithUri(string uri);
+        IGraphQLRequest WithHeader(string header, string value);
+        IGraphQLRequest WithUri(Uri uri);
+        IGraphQLRequest WithUri(string uri);
 
-        Task<T> GetResponseAsync();
+        Task<T> GetResponseAsync<T>();
     }
 }

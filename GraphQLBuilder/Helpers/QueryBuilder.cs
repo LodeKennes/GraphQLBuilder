@@ -10,6 +10,24 @@ namespace GraphQLBuilder.Helpers
     {
         public static string BuildHeader(string entity, IEnumerable<GraphQLQueryParam> parameters)
         {
+            var builder = new StringBuilder(entity);
+            
+            if (parameters.Any())
+            {
+                builder.Append("(");
+
+                var parametersString = parameters.Select(p => $"{p.Key}: ${p.Key}");
+
+                builder.Append(string.Join(", ", parametersString));
+
+                builder.Append(")");
+            }
+
+            return builder.ToString();
+        }
+
+        public static string BuildQueryHeader(IEnumerable<GraphQLQueryParam> parameters)
+        {
             var builder = new StringBuilder("query ");
 
             if (parameters.Any())
@@ -22,19 +40,7 @@ namespace GraphQLBuilder.Helpers
                 builder.Append(")");
             }
 
-            builder.Append("{ \n");
-
-            builder.Append($"{entity}");
-            if (parameters.Any())
-            {
-                builder.Append("(");
-
-                var parametersString = parameters.Select(p => $"{p.Key}: ${p.Key}");
-
-                builder.Append(string.Join(", ", parametersString));
-
-                builder.Append(")");
-            }
+            builder.AppendLine(" {");
 
             return builder.ToString();
         }

@@ -1,23 +1,21 @@
-﻿using System;
+﻿using GraphQL.Client;
+using GraphQLBuilder.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GraphQL.Client;
-using GraphQLBuilder.Abstractions;
 
 namespace GraphQLBuilder.Implementations
 {
-    public class GraphQLRequest : IGraphQLRequest
+    public class GraphQLCombinedRequest : IGraphQLRequest
     {
-        private readonly string _entity;
         private readonly string _query;
         private readonly dynamic _parameters;
 
         private readonly IDictionary<string, string> _headers;
         private Uri _uri;
 
-        public GraphQLRequest(string entity, string query, dynamic parameters = null)
+        public GraphQLCombinedRequest(string query, dynamic parameters = null)
         {
-            _entity = entity;
             _query = query;
             _parameters = parameters;
             _headers = new Dictionary<string, string>();
@@ -34,7 +32,7 @@ namespace GraphQLBuilder.Implementations
                 };
                 var result = await client.PostAsync(request);
 
-                return result.GetDataFieldAs<T>(_entity);
+                return (T)result.Data;
             }
         }
 
