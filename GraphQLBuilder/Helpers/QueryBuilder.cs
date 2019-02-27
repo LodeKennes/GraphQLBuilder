@@ -53,10 +53,10 @@ namespace GraphQLBuilder.Helpers
             {
                 if (!property.SubProperties.Any())
                 {
-                    builder.Append($"{property.Name.ToLower()},\n");
+                    builder.Append($"{property.Name.ToCamelCase()},\n");
                 } else
                 {
-                    var str = $"{property.Name.ToLower()} {BuildBody(property.SubProperties)}";
+                    var str = $"{property.Name.ToCamelCase()} {BuildBody(property.SubProperties)}";
 
                     builder.Append($"{str}, \n");
                 }
