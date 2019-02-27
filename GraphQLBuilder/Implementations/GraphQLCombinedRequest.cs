@@ -30,6 +30,13 @@ namespace GraphQLBuilder.Implementations
                     Query = _query,
                     Variables = _parameters
                 };
+                
+                foreach (var header in _headers) {
+                    if (client.DefaultRequestHeaders.Contains(header.Key))
+                        client.DefaultRequestHeaders.Remove(header.Key);
+                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                }
+
                 var result = await client.PostAsync(request);
 
                 return (T)result.Data;
