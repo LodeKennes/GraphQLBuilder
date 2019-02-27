@@ -2,6 +2,7 @@
 using GraphQLBuilder.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GraphQLBuilder.Implementations
@@ -38,6 +39,11 @@ namespace GraphQLBuilder.Implementations
                 }
 
                 var result = await client.PostAsync(request);
+
+                if (result.Errors.Any())
+                {
+                    throw new AggregateException(result.Errors.Select(x => new Exception($"Message: {x.Message}\nLocations: {x.Locations}")));
+                }
 
                 return (T)result.Data;
             }
