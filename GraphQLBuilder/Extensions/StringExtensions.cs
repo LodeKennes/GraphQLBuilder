@@ -19,5 +19,10 @@ namespace GraphQLBuilder.Extensions
         {
             return items.Select(i => i.ToCamelCase());
         }
+
+        public static IEnumerable<string> ToLowerCase(this IEnumerable<string> items)
+        {
+            return items.Select(i => i.ToLower());
+        }
     }
 }
