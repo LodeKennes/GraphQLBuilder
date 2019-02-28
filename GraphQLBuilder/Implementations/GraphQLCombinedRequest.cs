@@ -1,5 +1,6 @@
 ﻿using GraphQL.Client;
 using GraphQLBuilder.Abstractions;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace GraphQLBuilder.Implementations
                     throw new AggregateException(result.Errors.Select(x => new Exception($"Message: {x.Message}\nLocations: {x.Locations}")));
                 }
 
-                return (T)result.Data;
+                return ((JObject)result.Data).ToObject<T>();
             }
         }
 
