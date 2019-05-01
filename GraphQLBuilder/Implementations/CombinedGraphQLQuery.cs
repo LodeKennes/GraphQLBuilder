@@ -13,6 +13,8 @@ namespace GraphQLBuilder.Implementations
         protected IList<GraphQLQueryModel> Queries { get; }
         protected IEnumerable<GraphQLQueryParam> Parameters => Queries.SelectMany(q => q.Parameters);
 
+        public string Query => BuildQuery();
+
         internal CombinedGraphQLQuery(IEnumerable<GraphQLQueryModel> queries)
         {
             Queries = queries.ToList();
@@ -20,7 +22,7 @@ namespace GraphQLBuilder.Implementations
 
         public static CombinedGraphQLQuery operator &(CombinedGraphQLQuery combined, IGraphQLQuery s2)
         {
-            if (combined.Parameters.Select(p => p.Key).Any(k => s2.Parameters.Select(p => p.Key).Contains(k))) throw new System.Exception("Duplicate parameter found in queries");
+            if (combined.Parameters != null && s2.Parameters != null && combined.Parameters.Select(p => p.Key).Any(k => s2.Parameters.Select(p => p.Key).Contains(k))) throw new System.Exception("Duplicate parameter found in queries");
 
             combined.Queries.Add(new GraphQLQueryModel(s2.Entity, s2.Properties, s2.Parameters, s2.ReturnType));
 
@@ -29,7 +31,7 @@ namespace GraphQLBuilder.Implementations
 
         public IGraphQLRequest GetRequest()
         {
-            var parametersObject = new ExpandoObject() as IDictionary<string, object>; ;
+            var parametersObject = new ExpandoObject() as IDictionary<string, object>;
 
             foreach (var param in Parameters)
             {

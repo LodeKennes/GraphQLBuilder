@@ -1,4 +1,5 @@
-﻿using GraphQLBuilder.Attributes;
+﻿using System.Collections.Generic;
+using GraphQLBuilder.Attributes;
 
 namespace GraphQLBuilder.Tests.GraphQLModels
 {
@@ -15,5 +16,8 @@ namespace GraphQLBuilder.Tests.GraphQLModels
 
         [GraphQLNestedProperty]
         public Continent Continent { get; set; }
+        
+        [GraphQLNestedProperty]
+        public IEnumerable<Language> Languages { get; set; }
     }
 }

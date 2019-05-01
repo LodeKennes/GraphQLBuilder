@@ -14,7 +14,7 @@ namespace GraphQLBuilder
         {
             var possibleFields = PropertyCollector.BuildPropertyTreeFor<T>();
 
-            if (possibleFields.Count() == 0) throw new ArgumentException($"Type {typeof(T).Name} doesn't contain any appropriate fields, please use GraphQLClass and GraphQLProperty");
+            if (!possibleFields.Any()) throw new ArgumentException($"Type {typeof(T).Name} doesn't contain any appropriate fields, please use GraphQLClass and GraphQLProperty");
 
             return new GraphQLQuery<T>(entity, possibleFields);
         }
@@ -25,7 +25,7 @@ namespace GraphQLBuilder
 
             var possibleFields = PropertyCollector.BuildPropertyTreeFor<T>();
 
-            if (possibleFields.Count() == 0) throw new ArgumentException($"Type {typeof(T).Name} doesn't contain any appropriate fields, please use GraphQLClass and GraphQLProperty");
+            if (!possibleFields.Any()) throw new ArgumentException($"Type {typeof(T).Name} doesn't contain any appropriate fields, please use GraphQLClass and GraphQLProperty");
 
             return new GraphQLQuery<T>(entity, possibleFields);
         }
